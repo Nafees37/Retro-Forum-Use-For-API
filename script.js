@@ -1,3 +1,5 @@
+// *************** All Posts Start ***************
+
 // posts & category api start
 const postsFun = async (categoryId) => {
 
@@ -170,3 +172,72 @@ const cardButtonFun = (desCription, viewCount) => {
 
 }
 // desCription & viewCount function end
+
+
+// *************** All Posts End ***************
+
+
+
+// *************** Latest Posts Start ***************
+
+
+// latest Posts Api Start
+const latestPosts = async () => {
+  const latestAPI = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
+
+  const data = await latestAPI.json();
+
+  latestApiFun(data)
+}
+
+latestPosts()
+// latest Posts Api End
+
+// latest Posts Api Received Start
+const latestApiFun = (latestData) => {
+  // console.log(latestData)
+
+  const latestParent = document.getElementById("latest-post-container")
+
+  // latest Posts Api forEach start
+  latestData.forEach(arrayData => {
+    // console.log(arrayData)
+
+    const latestCard = document.createElement("div")
+    latestCard.innerHTML = `
+
+      <div class="card lg:w-96 pb-5 bg-base-100 shadow-2xl">
+        <figure class="lg:px-6 px-4 pt-4 lg:pt-8">
+          <img src="${arrayData.cover_image}" alt="Shoes" class="rounded-xl" />
+        </figure>
+        <div class="p-5 lg:p-10 space-y-4 lg:space-y-5">
+          <p class="opacity-50 text-start">
+            <i class="fa-solid fa-calendar-days me-2"></i>
+            ${arrayData.author.posted_date ? `${arrayData.author.posted_date}` : 'No Publish Date'}
+          </p>
+          <h2 class="card-title text-start">${arrayData.title}</h2>
+          <p class="text-start">
+          ${arrayData.description}
+          </p>
+          <div class="card-actions flex gap-5 items-center">
+            <div class="avatar">
+              <div class="lg:w-12 w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                <img src="${arrayData.profile_image}" />
+              </div>
+            </div>
+            <div>
+              <h3 class="text-start font-extrabold">${arrayData.author.name}</h3>
+              <p class="text-start opacity-60">${arrayData.author.designation ? `${arrayData.author.designation}` : 'Unknown'}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    `
+    latestParent.appendChild(latestCard)
+  })
+  // latest Posts Api forEach end
+}
+// latest Posts Api Received End
+
+// *************** Latest Posts End ***************
